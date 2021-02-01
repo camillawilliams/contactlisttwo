@@ -53,7 +53,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.log("Looks like there was a problem: \n", error);
 					});
 			},
-			getinitialData: () => {
+			initialData: () => {
 				fetch("https://assets.breatheco.de/apis/fake/contact/agenda/camillav")
 					.then(function(response) {
 						if (!response.ok) {

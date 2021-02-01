@@ -7,10 +7,7 @@ export const EditContact = props => {
 	const { store, actions } = useContext(Context);
 	const params = useParams();
 	console.log(params);
-	// use id in order to find this specific contact from store.contacts, then the next row to get id from props. how can we access it? open inspector, click edit pencil, go to components and look for edit contacts. There is a props  inside match>params It is props.match.params.id
-	// use a  find method to match params.id
-	// added property above with my typed string from postman to manipulate newContact instead of overwriting old values as it saves without worry when restarting gitpod
-	// contact.full_name (this will come from a newly created contact variable from the find method)
+
 	const [editedContact, setEditedContact] = useState({
 		agenda_slug: "camillav",
 		full_name: store.contacts[params.index].full_name,
