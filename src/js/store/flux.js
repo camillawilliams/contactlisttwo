@@ -6,14 +6,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			addContact: newContact => {
 				const tempStore = getStore();
-				//right side getStore gives us actual store
-				const updatedContacts = tempStore.contacts.concat(newContact);
-				setStore({ contact: updatedContacts });
+				fetch("https://assets.breatheco.de/apis/fake/contact/", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(newContact)
+				})
+					.then(() => getActions().initialData())
+					.catch(function(error) {
+						console.log("Looks like there was a problem: \n", error);
+					});
 			},
-			// Use getActions to call a function within a fuction
-			// exampleFunction: () => {
-			//     getActions().changeColor(0, "green");
-			loadSomeData: () => {
+			deleteContact: id => {
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${id}`, { method: "DELETE" })
+					.then(response => response.json())
+					.then(response => {
+						fetch("https://assets.breatheco.de/apis/fake/contact/agenda/camillav")
+							.then(function(response) {
+								if (!response.ok) {
+									throw Error(response.statusText);
+								}
+								// Read the response as json.
+								return response.json();
+							})
+							.then(function(responseAsJson) {
+								// Do stuff with the JSON
+								setStore({ contacts: responseAsJson });
+							})
+							.catch(function(error) {
+								console.log("Looks like there was a problem: \n", error);
+							});
+					});
+			},
+			editContact: (editedContact, id) => {
+				console.log(editedContact);
+				fetch(`https://assets.breatheco.de/apis/fake/contact/${id}`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify(editedContact)
+				})
+					.then(() => getActions().initialData())
+					.catch(function(error) {
+						console.log("Looks like there was a problem: \n", error);
+					});
+			},
+			getinitialData: () => {
 				fetch("https://assets.breatheco.de/apis/fake/contact/agenda/camillav")
 					.then(function(response) {
 						if (!response.ok) {
@@ -31,21 +71,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}); /**
 					fetch().then().then(data => setStore({ "foo": data.bar }))
 				*/
-			},
-
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
 			}
 		}
 	};

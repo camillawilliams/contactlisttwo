@@ -4,7 +4,13 @@ import { Context } from "../store/appContext";
 
 export const AddContact = () => {
 	const { store, actions } = useContext(Context);
-
+	const [newContact, setNewContact] = useState({
+		agenda_slug: "camillav",
+		full_name: "",
+		email: "",
+		phone: "",
+		address: ""
+	});
 	return (
 		<div className="container">
 			<div>
@@ -12,19 +18,39 @@ export const AddContact = () => {
 				<form>
 					<div className="form-group">
 						<label>Full Name</label>
-						<input type="text" className="form-control" placeholder="Full Name" />
+						<input
+							type="text"
+							className="form-control"
+							placeholder="Full Name"
+							onChange={event => setNewContact({ ...newContact, full_name: event.target.value })}
+						/>
 					</div>
 					<div className="form-group">
 						<label>Email</label>
-						<input type="email" className="form-control" placeholder="Enter email" />
+						<input
+							type="email"
+							className="form-control"
+							placeholder="Enter email"
+							onChange={event => setNewContact({ ...newContact, email: event.target.value })}
+						/>
 					</div>
 					<div className="form-group">
 						<label>Phone</label>
-						<input type="phone" className="form-control" placeholder="Enter phone" />
+						<input
+							type="phone"
+							className="form-control"
+							placeholder="Enter phone"
+							onChange={event => setNewContact({ ...newContact, phone: event.target.value })}
+						/>
 					</div>
 					<div className="form-group">
 						<label>Address</label>
-						<input type="text" className="form-control" placeholder="Enter address" />
+						<input
+							type="text"
+							className="form-control"
+							placeholder="Enter address"
+							onChange={event => setNewContact({ ...newContact, address: event.target.value })}
+						/>
 					</div>
 					<button
 						type="button"
@@ -32,7 +58,6 @@ export const AddContact = () => {
 						onClick={() => {
 							actions.addContact(newContact);
 						}}>
-						{" "}
 						save
 					</button>
 					<Link className="mt-3 w-100 text-center" to="/">
